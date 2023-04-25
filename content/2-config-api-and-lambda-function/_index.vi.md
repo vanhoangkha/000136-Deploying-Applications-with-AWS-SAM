@@ -26,11 +26,29 @@ pre : " <b> 2. </b> "
           KeyType: RANGE
       StreamSpecification:
         StreamViewType: NEW_IMAGE
+
+  # Create a table to storage general informations
+  GeneralTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: General
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
 ```
 
 ![CreateLambda](/images/2-config-api-and-lambda-function/2-config-api-and-lambda-function-1.png?featherlight=false&width=90pc)
 
-2. Sao chép đoạn code sau vào tệp **template.yaml** để thiếp lập 3 Lambda function là **upload_docs**, **list_docs** và **delete_doc**
+2. Sao chép đoạn code sau vào tệp **template.yaml** để thiết lập 5 Lambda function là: 
+    - **upload_doc**
+    - **list_docs**
+    - **delete_doc**
+    - **upload_general_infor**
+    - **get_general_infor**
 ```yaml
   # Lambda function to scan all document by user id
   DocsList:
@@ -66,10 +84,10 @@ pre : " <b> 2. </b> "
   DocsUpload:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: lambda/upload_docs
-      Handler: upload_docs.lambda_handler
+      CodeUri: lambda/upload_doc
+      Handler: upload_doc.lambda_handler
       Runtime: python3.9
-      FunctionName: upload_docs
+      FunctionName: upload_doc
       Architectures:
         - x86_64
       Policies:
@@ -122,6 +140,63 @@ pre : " <b> 2. </b> "
       Environment:
         Variables:
           TABLE_NAME: !Ref DocsTable
+
+  GeneralInforUpload:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/upload_general_infor
+      Handler: upload_general_infor.lambda_handler
+      Runtime: python3.9
+      FunctionName: upload_general_infor
+      Architectures:
+        - x86_64
+      Policies:
+        - Statement:
+          - Sid: DeleteItems
+            Effect: Allow
+            Action:
+              - dynamodb:PutItem
+            Resource:
+              - !GetAtt GeneralTable.Arn
+      Events:
+        DeleteDoc:
+          Type: Api
+          Properties:
+            Path: /docs/{id}/gen/
+            Method: post
+            RestApiId: !Ref DocApi
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref GeneralTable
+
+  GeneralInforGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/get_general_infor
+      Handler: get_general_infor.lambda_handler
+      Runtime: python3.9
+      FunctionName: get_general_infor
+      Architectures:
+        - x86_64
+      Policies:
+        - Statement:
+          - Sid: DeleteItems
+            Effect: Allow
+            Action:
+              - dynamodb:GetItem
+              - dynamodb:Query
+            Resource:
+              - !GetAtt GeneralTable.Arn
+      Events:
+        DeleteDoc:
+          Type: Api
+          Properties:
+            Path: /docs/{id}/gen/
+            Method: get
+            RestApiId: !Ref DocApi
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref GeneralTable
 ```
 
 ![CreateLambda](/images/2-config-api-and-lambda-function/2-config-api-and-lambda-function-2.png?featherlight=false&width=90pc)
@@ -154,10 +229,17 @@ pre : " <b> 2. </b> "
 import json
 import boto3
 import os
+from decimal import *
 from boto3.dynamodb.types import TypeDeserializer
 
 dynamodb = boto3.client('dynamodb') 
 serializer = TypeDeserializer()
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
 
 def deserialize(data):
     if isinstance(data, list):
@@ -191,14 +273,14 @@ def lambda_handler(event, context):
             "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE, OPTIONS",
             "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method,X-Access-Token,XKey,Authorization"
         },
-        "body": json.dumps(format_data_docs)
+        "body": json.dumps(format_data_docs, cls=DecimalEncoder)
     }
 
 ```
 
 ![CreateLambda](/images/2-config-api-and-lambda-function/2-config-api-and-lambda-function-5.png?featherlight=false&width=90pc)
 
-7. Tương tự tạo thư mục và tệp **upload_docs/upload_docs.py** trong thư mục **lambda**. Tiếp theo sao chép code dưới đây cho tệp đã tạo.
+7. Tương tự tạo thư mục và tệp **upload_doc/upload_doc.py** trong thư mục **lambda**. Tiếp theo sao chép code dưới đây cho tệp đã tạo.
 ```python
 import json
 import boto3
@@ -206,20 +288,18 @@ import os
 from datetime import datetime, timezone
 
 dynamodb = boto3.resource('dynamodb')
+client_cloudwatch = boto3.client('cloudwatch')
 
 def lambda_handler(event, context):
     table_name = os.environ['TABLE_NAME']
     now = datetime.now(tz=timezone.utc)
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    docs_data = json.loads(event["body"])
-    print(docs_data)
-    for item in docs_data:
-        print(item)
-        path = "protected/{}/{}".format(item['identityId'], item['file'])
-        
-        item.update({"path": path, "modified": dt_string})
-        table = dynamodb.Table(table_name)
-        table.put_item(Item = item)
+    doc_data = json.loads(event["body"])
+
+    path = "protected/{}/{}".format(doc_data['identityId'], doc_data['file'])
+    doc_data.update({"path": path, "modified": dt_string})
+    table = dynamodb.Table(table_name)
+    table.put_item(Item = doc_data)
         
     # TODO implement
     return {
@@ -286,10 +366,100 @@ def lambda_handler(event, context):
 
 ![CreateLambda](/images/2-config-api-and-lambda-function/2-config-api-and-lambda-function-7.png?featherlight=false&width=90pc)
 
+- Tương tự với tệp **lambda/upload_general_infor/upload_general_infor.py**
+
+```
+import json
+import boto3
+import os
+
+dynamodb = boto3.resource('dynamodb')
+
+def lambda_handler(event, context):
+    table_name = os.environ['TABLE_NAME']
+    data = json.loads(event["body"])
+    table = dynamodb.Table(table_name)
+    data.update({"id": event['pathParameters']['id']})
+    table.put_item(Item = data)
+
+    # TODO implement
+    return {
+        'statusCode': 200,
+        'body': 'successfully upload!',
+        'headers': {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method,X-Access-Token, XKey, Authorization",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS"
+        }
+    }
+
+```
+
+![CreateLambda](/images/2-config-api-and-lambda-function/2-config-api-and-lambda-function-8.png?featherlight=false&width=90pc)
+
+- Tương tự với tệp **lambda/get_general_infor/get_general_infor.py**
+```
+import json
+import boto3
+import os
+from decimal import *
+from boto3.dynamodb.types import TypeDeserializer
+
+dynamodb = boto3.client('dynamodb') 
+serializer = TypeDeserializer()
+    
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+        
+def deserialize(data):
+    if isinstance(data, list):
+        return [deserialize(v) for v in data]
+
+    if isinstance(data, dict):
+        try:
+            return serializer.deserialize(data)
+        except TypeError:
+            return {k: deserialize(v) for k, v in data.items()}
+    else:
+        return data
+        
+def lambda_handler(event, context):
+    # TODO implement
+    table_name = os.environ['TABLE_NAME']
+    user_id = event['pathParameters']['id']
+    print(user_id)
+    data = dynamodb.query(
+        TableName=table_name,
+        KeyConditionExpression="id = :id",
+        ExpressionAttributeValues={ ":id": { 'S': user_id } }
+    )
+    
+    format_data = deserialize(data["Items"])
+
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method,X-Access-Token,XKey,Authorization"
+        },
+        "body": json.dumps(format_data, cls=DecimalEncoder)
+        #"body": format_data
+    }
+
+```
+
+![CreateLambda](/images/2-config-api-and-lambda-function/2-config-api-and-lambda-function-9.png?featherlight=false&width=90pc)
+
 8. Chạy câu lệnh dưới đây để build và deploy sam project sau khi cập nhật template:
 ```
 sam build
-samdeploy
+sam deploy
 ```
 
 Trong lúc đợi CloudFormation hoàn thành, bạn có thể tìm hiểu về tệp **swagger.yaml**. Phần tiếp theo chúng ta sẽ thực hiện các thao tác trên Front-end để kiểm tra hoạt động của các API.

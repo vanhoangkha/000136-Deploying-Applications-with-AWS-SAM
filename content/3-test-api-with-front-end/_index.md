@@ -20,6 +20,10 @@ We will perform the document upload, document download, and delete document func
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-3.png?featherlight=false&width=90pc)
 
+- Open the **src/component/Home/Upload.js** file in the application's source code directory and uncomment the code that calls the API to write data to DynamoDB.
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-3-1.png?featherlight=false&width=90pc)
+
 5. Build and upload build folder to s3 with the following commmand:
 ```
 yarn build
@@ -36,16 +40,28 @@ Replace `BUCKET_NAME` with the name of the bucket you created to host the websit
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-5.png?featherlight=false&width=90pc)
 
-8. Select **My Document** on the left menu to view all uploaded files. Then click **Choose**
+- Select **My Profile** to view information about file numbers and used storage
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-6.png?featherlight=false&width=90pc)
 
-9. Check to files that you want to delete and click **Delete**
+8. Select **My Document** on the left menu to view all uploaded files. Then click **Select**
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-7.png?featherlight=false&width=90pc)
 
-10. You will see the deleted files and you can download them if you click the **Download** icon
+9. Check to files that you want to delete and click **Delete**
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-8.png?featherlight=false&width=90pc)
+
+- Click **OK** to confirm deletion
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-10.png?featherlight=false&width=90pc)
+
+10. You will see the deleted files and you can download them if you click the **Download** icon
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-10.png?featherlight=false&width=90pc)
+
+11. Select **Home** on the left menu, you will see the information has been updated
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-11.png?featherlight=false&width=90pc)
 
 You can open the S3 bucket and DynamoDB table to examine objects and data. We have completed the deployment of a serverless application with SAM.

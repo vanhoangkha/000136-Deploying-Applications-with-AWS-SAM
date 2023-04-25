@@ -23,8 +23,10 @@ Thay đổi giá trị **Default** để thay đổi tên cho bucket
   FcjDMSWebStore:
     Type: AWS::S3::Bucket
     Properties:
-      AccessControl: PublicRead
       BucketName: !Ref WebStoreBucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: "false"
+        BlockPublicPolicy: "false"
       WebsiteConfiguration:
         IndexDocument: 'index.html'
 
@@ -92,52 +94,36 @@ Thay thế `BUCKET_NAME` bằng tên bucket bạn vừa tạo để host website
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-27.png?featherlight=false&width=90pc)
 
-12. Ấn **Upload**
+12. Đăng nhập thành công
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-28.png?featherlight=false&width=90pc)
 
-13. Ấn **Add files** và chọn những tệp mà bạn muốn tải lên. Sau đó ấn **Upload**
+13. Chọn **My Profile** ở menu phía bên trái, tiếp theo ấn **Update profile**.
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-29.png?featherlight=false&width=90pc)
 
-14. Bạn sẽ gặp lỗi trong khi tải tài liệu lên. Ấn **OK**.
+14. Nhập mật khẩu cũ và mới, sau đó ấn **Upadate**
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-30.png?featherlight=false&width=90pc)
 
-15. Ấn chuột phải vào trình duyệt web, chọn **Inspect** sau đó chọn tab **Console**. Bạn sẽ thấy lỗi xuất hiện. Đó là vì chúng ta chưa thiết lập API.
+15. Ấn **OK**
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-31.png?featherlight=false&width=90pc)
 
-16. Mở bảng điều khiển của S3 bucket dùng để lưu các tài liệu. Kiểm tra xem tệp đã được tải lên hay chưa.
+16. Ấn **Sign out** ở menu phía bên trái
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-32.png?featherlight=false&width=90pc)
 
-17. Chọn **My Profile** ở menu phía bên trái, tiếp theo ấn **Update profile**.
+17. Ấn **Sign in**
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-33.png?featherlight=false&width=90pc)
 
-18. Nhập mật khẩu cũ và mới, sau đó ấn **Upadate**
+18. Đăng nhập lại với tài khoản mà bạn vừa cập nhật.
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-34.png?featherlight=false&width=90pc)
 
-19. Ấn **OK**
+19. Bạn đã đăng nhập thành công với thông tin tài khoản mới.
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-35.png?featherlight=false&width=90pc)
-
-20. Ấn **Logout** ở menu phía bên trái
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-36.png?featherlight=false&width=90pc)
-
-21. Ấn **Sign in**
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-37.png?featherlight=false&width=90pc)
-
-22. Đăng nhập lại với tài khoản mà bạn vừa cập nhật.
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-38.png?featherlight=false&width=90pc)
-
-23. Bạn đã đăng nhập thành công với thông tin tài khoản mới.
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-39.png?featherlight=false&width=90pc)
 
 Bạn đã hoàn thành việc host một website tĩnh trên S3, xác thực người dùng với Cognito, lưu trữ tài liệu trên S3. Tiếp theo để khác phục lỗi ở bước số 15, chúng tã sẽ thiết lập REST API cho ứng dụng.

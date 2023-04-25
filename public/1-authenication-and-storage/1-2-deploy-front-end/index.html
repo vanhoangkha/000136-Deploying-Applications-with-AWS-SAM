@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="Hugo 0.99.1" />
+    <meta name="generator" content="Hugo 0.101.0" />
     <meta name="description" content="">
 <meta name="author" content="journeyoftheaverageguy@gmail.com">
 
@@ -12,21 +12,21 @@
     <title>Deploy Front-end :: Serverless - Deploying Applications with AWS SAM using Serverless Architecture</title>
 
     
-    <link href="/css/nucleus.css?1681215108" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1681215108" rel="stylesheet">
-    <link href="/css/hybrid.css?1681215108" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1681215108" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1681215108" rel="stylesheet">
-    <link href="/css/auto-complete.css?1681215108" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1681215108" rel="stylesheet">
-    <link href="/css/theme.css?1681215108" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1681215108" rel="stylesheet">
+    <link href="/css/nucleus.css?1682434257" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1682434257" rel="stylesheet">
+    <link href="/css/hybrid.css?1682434257" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1682434257" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1682434257" rel="stylesheet">
+    <link href="/css/auto-complete.css?1682434257" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1682434257" rel="stylesheet">
+    <link href="/css/theme.css?1682434257" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1682434257" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1681215108" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1682434257" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1681215108"></script>
+    <script src="/js/jquery-3.3.1.min.js?1682434257"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1681215108"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1681215108"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1682434257"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1682434257"></script>
 <script type="text/javascript">
     
         var baseurl = "";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1681215108"></script>
+<script type="text/javascript" src="/js/search.js?1682434257"></script>
 
     
   </div>
@@ -142,7 +142,7 @@
   
     
     <li data-nav-id="/1-authenication-and-storage/1-2-deploy-front-end/" title="Deploy Front-end" class="dd-item 
-        parent
+        
         active
         
         ">
@@ -337,7 +337,7 @@
     <br>
     <br>
         <b> Last Updated </b> <br>
-        <i><font color=orange>11-04-2023</font></i>
+        <i><font color=orange>25-04-2023</font></i>
     </left>
     <left>
         <br>
@@ -444,8 +444,10 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">FcjDMSWebStore</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::S3::Bucket</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AccessControl</span>: <span style="color:#ae81ff">PublicRead</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">BucketName</span>: !<span style="color:#ae81ff">Ref WebStoreBucketName</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">PublicAccessBlockConfiguration</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">BlockPublicAcls</span>: <span style="color:#e6db74">&#34;false&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">BlockPublicPolicy</span>: <span style="color:#e6db74">&#34;false&#34;</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">WebsiteConfiguration</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">IndexDocument</span>: <span style="color:#e6db74">&#39;index.html&#39;</span>
 </span></span><span style="display:flex;"><span>
@@ -510,51 +512,37 @@ aws s3 cp build s3://BUCKET_NAME --recursive
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-27.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="12">
-<li>Click <strong>Upload</strong></li>
+<li>Logged in successfully</li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-28.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="13">
-<li>Click <strong>Add files</strong> and select the files which you want to upload. Then click <strong>Upload</strong></li>
+<li>Select <strong>My Profile</strong> on the left menu, then click <strong>Update profile</strong>.</li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-29.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="14">
-<li>You will get an error while uploading the document. Click <strong>OK</strong>.</li>
+<li>Enter old and new password, then click <strong>Upadate</strong></li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-30.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="15">
-<li>Right click to browser, select <strong>Inspect</strong> then select <strong>Console</strong> tab. You will see the error appear. That&rsquo;s because we haven&rsquo;t set up the API yet.</li>
+<li>Click <strong>OK</strong></li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-31.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="16">
-<li>Open the dashboard of the S3 bucket used to store documents. Check if the files are uploaded or not.</li>
+<li>Click <strong>Logout</strong> on the left menu</li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-32.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="17">
-<li>Select <strong>My Profile</strong> on the left menu, then click <strong>Update profile</strong>.</li>
+<li>Click <strong>Sign in</strong></li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-33.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="18">
-<li>Enter old and new password, then click <strong>Upadate</strong></li>
+<li>Sign in again with the account you just updated.</li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-34.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <ol start="19">
-<li>Click <strong>OK</strong></li>
-</ol>
-<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-35.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
-<ol start="20">
-<li>Click <strong>Logout</strong> on the left menu</li>
-</ol>
-<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-36.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
-<ol start="21">
-<li>Click <strong>Sign in</strong></li>
-</ol>
-<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-37.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
-<p>22.Sign in again with the account you just updated.</p>
-<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-38.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
-<ol start="23">
 <li>You sign in successfully with the updated account.</li>
 </ol>
-<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-39.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-35.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
 <p>You have finished hosting a static website on S3, authentication with Cognito, storage with S3. Next to fix the error in step 15, we will set up the REST API for the application.</p>
 
 
@@ -719,19 +707,19 @@ aws s3 cp build s3://BUCKET_NAME --recursive
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1681215108"></script>
-    <script src="/js/perfect-scrollbar.min.js?1681215108"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1681215108"></script>
-    <script src="/js/jquery.sticky.js?1681215108"></script>
-    <script src="/js/featherlight.min.js?1681215108"></script>
-    <script src="/js/highlight.pack.js?1681215108"></script>
+    <script src="/js/clipboard.min.js?1682434258"></script>
+    <script src="/js/perfect-scrollbar.min.js?1682434258"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1682434258"></script>
+    <script src="/js/jquery.sticky.js?1682434258"></script>
+    <script src="/js/featherlight.min.js?1682434258"></script>
+    <script src="/js/highlight.pack.js?1682434258"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1681215108"></script>
-    <script src="/js/learn.js?1681215108"></script>
-    <script src="/js/hugo-learn.js?1681215108"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1682434258"></script>
+    <script src="/js/learn.js?1682434258"></script>
+    <script src="/js/hugo-learn.js?1682434258"></script>
 
-    <link href="/mermaid/mermaid.css?1681215108" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1681215108"></script>
+    <link href="/mermaid/mermaid.css?1682434258" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1682434258"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

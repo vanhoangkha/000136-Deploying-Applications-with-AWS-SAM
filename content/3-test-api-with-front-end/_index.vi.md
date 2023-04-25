@@ -20,6 +20,10 @@ Chúng ta sẽ thực hiện các chức năng tải tài liệu lên, tải tà
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-3.png?featherlight=false&width=90pc)
 
+- Mở tệp **src/component/Home/Upload.js** trong thư mục source code của ứng dụng và bỏ comment đoạn code gọi API ghi dữ liệu vào DynamoDB.
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-3-1.png?featherlight=false&width=90pc)
+
 5. Build và đẩy thư mục build lên s3 với câu lệnh sau:
 ```
 yarn build
@@ -36,16 +40,28 @@ Thay thế `BUCKET_NAME` bằng tên bucket bạn tạo để host website
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-5.png?featherlight=false&width=90pc)
 
-8. Chọn **My Document** ở menu phía bên trái để xem các tệp đã tải lên. Sau đó ấn **Choose**
+- Chọn **My Profile** để xem thông tin các số tệp và dung lượng đã dùng
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-6.png?featherlight=false&width=90pc)
 
-9. Chọn các tệp mà bạn muốn xoá và ấn **Delete**
+8. Chọn **My Document** ở menu phía bên trái để xem các tệp đã tải lên. Sau đó ấn **Select**
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-7.png?featherlight=false&width=90pc)
 
-10. Bạn sẽ thấy các tệp đã được xoá và bạn có thể tải tệp về máy nếu ấn vào biểu tượng **Download**
+9. Chọn các tệp mà bạn muốn xoá và ấn **Delete**
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-8.png?featherlight=false&width=90pc)
+
+- Ấn **OK** để xác nhận xoá
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-9.png?featherlight=false&width=90pc)
+
+10. Bạn sẽ thấy các tệp đã được xoá và bạn có thể tải tệp về máy nếu ấn vào biểu tượng **Download**
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-10.png?featherlight=false&width=90pc)
+
+11. Chọn **Home** ở menu phía bên trái, bạn sẽ thấy thông tin đã được cập nhật
+
+![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-11.png?featherlight=false&width=90pc)
 
 Bạn có thể mở S3 bucket và DynamoDB table để kiểm tra các object và dữ liệu. Chúng ta đã hoàn thành việc triển khai ứng dụng serverless với SAM.

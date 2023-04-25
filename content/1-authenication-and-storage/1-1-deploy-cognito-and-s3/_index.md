@@ -226,7 +226,7 @@ With the above code, the S3 bucket is configured CorsRules which allows our web 
                     - !Ref DocumentStoreBucketName
                     - /protected/*
   
-  # Create a role for authorized acces to AWS resources. Control what your user can access. This example only allows Lambda invokation
+  # Create a role for authorized access to AWS resources. Control what your user can access. This example only allows Lambda invokation
   # Only allows users in the previously created Identity Pool
   CognitoAuthorizedRole:
     Type: "AWS::IAM::Role"
@@ -325,8 +325,8 @@ amplify init
 
 {{% notice note %}}
 If you have not downloaded the front-end project, run the following commands:\
-`git clone https://github.com/AWS-First-Cloud-Journey/FCJ-DMS`\
-`cd FCJ-DMS`\
+`git clone https://github.com/AWS-First-Cloud-Journey/FCJ-Serverless-DMS`\
+`cd FCJ-Serverless-DMS`\
 `npm install`
 {{% /notice %}}
 

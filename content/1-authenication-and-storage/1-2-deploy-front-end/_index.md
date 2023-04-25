@@ -23,8 +23,10 @@ Change the **Default** value to change bucket name
   FcjDMSWebStore:
     Type: AWS::S3::Bucket
     Properties:
-      AccessControl: PublicRead
       BucketName: !Ref WebStoreBucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: "false"
+        BlockPublicPolicy: "false"
       WebsiteConfiguration:
         IndexDocument: 'index.html'
 
@@ -92,52 +94,36 @@ Replace `BUCKET_NAME` with the name of the bucket you just created to host the s
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-27.png?featherlight=false&width=90pc)
 
-12. Click **Upload**
+12. Logged in successfully
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-28.png?featherlight=false&width=90pc)
 
-13. Click **Add files** and select the files which you want to upload. Then click **Upload**
+13. Select **My Profile** on the left menu, then click **Update profile**.
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-29.png?featherlight=false&width=90pc)
 
-14. You will get an error while uploading the document. Click **OK**.
+14. Enter old and new password, then click **Upadate**
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-30.png?featherlight=false&width=90pc)
 
-15. Right click to browser, select **Inspect** then select **Console** tab. You will see the error appear. That's because we haven't set up the API yet.
+15. Click **OK**
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-31.png?featherlight=false&width=90pc)
 
-16. Open the dashboard of the S3 bucket used to store documents. Check if the files are uploaded or not.
+16. Click **Logout** on the left menu
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-32.png?featherlight=false&width=90pc)
 
-17. Select **My Profile** on the left menu, then click **Update profile**.
+17. Click **Sign in**
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-33.png?featherlight=false&width=90pc)
 
-18. Enter old and new password, then click **Upadate**
+18. Sign in again with the account you just updated.
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-34.png?featherlight=false&width=90pc)
 
-19. Click **OK**
+19. You sign in successfully with the updated account.
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-35.png?featherlight=false&width=90pc)
-
-20. Click **Logout** on the left menu
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-36.png?featherlight=false&width=90pc)
-
-21. Click **Sign in**
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-37.png?featherlight=false&width=90pc)
-
-22.Sign in again with the account you just updated.
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-38.png?featherlight=false&width=90pc)
-
-23. You sign in successfully with the updated account.
-
-![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-39.png?featherlight=false&width=90pc)
 
 You have finished hosting a static website on S3, authentication with Cognito, storage with S3. Next to fix the error in step 15, we will set up the REST API for the application.
