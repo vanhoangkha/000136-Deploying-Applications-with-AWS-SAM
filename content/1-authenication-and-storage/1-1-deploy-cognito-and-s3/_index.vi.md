@@ -313,12 +313,12 @@ amplify init
 
     ? Initialize the project with the above configuration? `Yes`\
     Using default provider  awscloudformation\
-    ? Select the authentication method you want to use: `AWS profile`
+    ? Select the authentication method you want to use: *AWS profile*
 
     For more information on AWS Profiles, see:\
     https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
-    ? Please choose the profile you want to use default\
+    ? Please choose the profile you want to use *default*\
     ? Help improve Amplify CLI by sharing non sensitive configurations on failures (y/N) › `No`
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-14.png?featherlight=false&width=90pc)
@@ -332,7 +332,7 @@ Nếu chưa tải project thì chạy các câu lệnh sau:\
 
 9. Chạy câu lệnh sau để import authentication vào project:
 ```
-ampliy import auth
+amplify import auth
 ```
 - Chọn **Cognito User Pool and Identity Pool** cho *What type of auth resource do you want to import?*
 
@@ -340,7 +340,7 @@ ampliy import auth
 
 10. Chạy câu lệnh sau để import storage vào project:
 ```
-ampliy import storage
+amplify import storage
 ```
 - Chọn **S3 bucket - Content (Images, audio, video, etc.)** cho *Select from one of the below mentioned services*
 - Chọn bucket mà bạn đã tạo từ các bước trên

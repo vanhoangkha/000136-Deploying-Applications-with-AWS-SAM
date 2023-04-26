@@ -63,7 +63,7 @@ sam deploy
 yarn build
 aws s3 cp build s3://BUCKET_NAME --recursive
 ```
-Replace `BUCKET_NAME` with the name of the bucket you just created to host the static website.
+Replace `BUCKET_NAME` with the name of the bucket you just created to host the static website, such as: `aws s3 cp build s3://fcjdmswebstore --recursive`
 
 5. Open [Amazon S3 console](https://s3.console.aws.amazon.com/s3/buckets?region=ap-southeast-1)
 - Select just created bucket
@@ -126,4 +126,4 @@ Replace `BUCKET_NAME` with the name of the bucket you just created to host the s
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-35.png?featherlight=false&width=90pc)
 
-You have finished hosting a static website on S3, authentication with Cognito, storage with S3. Next to fix the error in step 15, we will set up the REST API for the application.
+You have finished hosting a static website on S3, authentication with Cognito, storage with S3. Next, we will set up the REST API for the application.

@@ -63,7 +63,7 @@ sam deploy
 yarn build
 aws s3 cp build s3://BUCKET_NAME --recursive
 ```
-Thay thế `BUCKET_NAME` bằng tên bucket bạn vừa tạo để host website
+Thay thế `BUCKET_NAME` bằng tên bucket bạn vừa tạo để host website, ví dụ: `aws s3 cp build s3://fcjdmswebstore --recursive`
 
 5. Mở bảng điều khiển của [Amazon S3](https://s3.console.aws.amazon.com/s3/buckets?region=ap-southeast-1)
 - Chọn bucket vừa tạo
@@ -126,4 +126,4 @@ Thay thế `BUCKET_NAME` bằng tên bucket bạn vừa tạo để host website
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-35.png?featherlight=false&width=90pc)
 
-Bạn đã hoàn thành việc host một website tĩnh trên S3, xác thực người dùng với Cognito, lưu trữ tài liệu trên S3. Tiếp theo để khác phục lỗi ở bước số 15, chúng tã sẽ thiết lập REST API cho ứng dụng.
+Bạn đã hoàn thành việc host một website tĩnh trên S3, xác thực người dùng với Cognito, lưu trữ tài liệu trên S3. Tiếp theo chúng tã sẽ thiết lập REST API cho ứng dụng.

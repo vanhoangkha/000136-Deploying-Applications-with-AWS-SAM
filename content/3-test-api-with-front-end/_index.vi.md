@@ -31,7 +31,7 @@ aws s3 cp build s3://BUCKET_NAME --recursive
 ```
 Thay thế `BUCKET_NAME` bằng tên bucket bạn tạo để host website
 
-6. Ấn chọn **Home** ở menu phía bên trái và reload lại trang.
+6. Trở lại với trình duyệt web với ứng dụng của bạn và reload lại trang.
 - Ấn **Upload**
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-4.png?featherlight=false&width=90pc)

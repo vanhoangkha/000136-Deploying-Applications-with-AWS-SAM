@@ -313,12 +313,12 @@ amplify init
 
     ? Initialize the project with the above configuration? `Yes`\
     Using default provider  awscloudformation\
-    ? Select the authentication method you want to use: `AWS profile`
+    ? Select the authentication method you want to use: *AWS profile*
 
     For more information on AWS Profiles, see:\
     https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
-    ? Please choose the profile you want to use default\
+    ? Please choose the profile you want to use *default*\
     ? Help improve Amplify CLI by sharing non sensitive configurations on failures (y/N) › `No`
 
 ![AddAmplify](/images/1-authenication-and-storage/1-authenication-and-storage-14.png?featherlight=false&width=90pc)
@@ -332,7 +332,7 @@ If you have not downloaded the front-end project, run the following commands:\
 
 9. Run the following command to import authentication into project:
 ```
-ampliy import auth
+amplify import auth
 ```
 - Select **Cognito User Pool and Identity Pool** for *What type of auth resource do you want to import?*
 
@@ -340,7 +340,7 @@ ampliy import auth
 
 10. Run the following command to import storage into project:
 ```
-ampliy import storage
+amplify import storage
 ```
 - Select **S3 bucket - Content (Images, audio, video, etc.)** for *Select from one of the below mentioned services*
 - Select the bucket you created from the above steps

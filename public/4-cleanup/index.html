@@ -12,21 +12,21 @@
     <title>Cleanup :: Serverless - Deploying Applications with AWS SAM using Serverless Architecture</title>
 
     
-    <link href="/css/nucleus.css?1682434257" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1682434257" rel="stylesheet">
-    <link href="/css/hybrid.css?1682434257" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1682434257" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1682434257" rel="stylesheet">
-    <link href="/css/auto-complete.css?1682434257" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1682434257" rel="stylesheet">
-    <link href="/css/theme.css?1682434257" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1682434257" rel="stylesheet">
+    <link href="/css/nucleus.css?1682480736" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1682480736" rel="stylesheet">
+    <link href="/css/hybrid.css?1682480736" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1682480736" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1682480736" rel="stylesheet">
+    <link href="/css/auto-complete.css?1682480736" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1682480736" rel="stylesheet">
+    <link href="/css/theme.css?1682480736" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1682480736" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1682434257" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1682480736" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1682434257"></script>
+    <script src="/js/jquery-3.3.1.min.js?1682480736"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1682434257"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1682434257"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1682480736"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1682480736"></script>
 <script type="text/javascript">
     
         var baseurl = "";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1682434257"></script>
+<script type="text/javascript" src="/js/search.js?1682480736"></script>
 
     
   </div>
@@ -425,12 +425,8 @@
 <li>Empty S3 bucket</li>
 </ol>
 <ul>
-<li>Open <a href="https://s3.console.aws.amazon.com/s3/buckets?region=ap-southeast-1">AWS S3 console</a></li>
-<li>Select <strong>fcjdmswebstore</strong></li>
-<li>Click <strong>Empty</strong></li>
-<li>Enter <strong>permanently delete</strong></li>
-<li>Click <strong>Empty</strong></li>
-<li>Do the same for buckets: <strong>aws-sam-cli-managed-default-</strong> and <strong>fcjdmsstore</strong></li>
+<li>Run the command: <code>aws s3 rm s3://BUCKET_NAME --recursive</code></li>
+<li>Replace <code>BUCKET_NAME</code> with bucket name to empty: <code>fcjdmswebstore</code>, <code>fcjdmsstore</code></li>
 </ul>
 <ol start="2">
 <li>Run the following commands at the root of the front-end project:</li>
@@ -443,11 +439,21 @@ amplify delete
 <li>Delete CloudFormation stacks</li>
 </ol>
 <ul>
-<li>Execute the below command to delete the AWS SAM application</li>
+<li>Execute the command to delete the AWS SAM application: <code>sam delete --stack-name fcjdmsapp</code></li>
+<li>Execute the command to empty S3 bucket: <code>aws s3 rm s3://BUCKET_NAME --recursive</code></li>
+<li>Replace <code>BUCKET_NAME</code> with bucket names starting with: <strong>aws-sam-cli-managed-default-samclisourcebucket-</strong></li>
+<li>Open <a href="https://ap-southeast-1.console.aws.amazon.com/s3/buckets?region=ap-southeast-1">Amazon S3 console</a></li>
+<li>Selecting the bucket name start with <strong>aws-sam-cli-managed-default-samclisourcebucket-</strong></li>
+<li>Click <strong>Show versions</strong></li>
+<li>Select the <strong>fcjdmsapp</strong> folder</li>
+<li>Select all objects</li>
+<li>Click <strong>Delete</strong></li>
+<li>Enter <code>permanently delete</code></li>
+<li>Click <strong>Delete</strong></li>
+<li>Run the command to stack:
+<code>sam delete --stack-name aws-sam-cli-managed-default</code></li>
 </ul>
-<pre tabindex="0"><code>sam delete --stack-name fcjdmsapp
-sam delete --stack-name aws-sam-cli-managed-default
-</code></pre>
+
 
 
 
@@ -606,19 +612,19 @@ sam delete --stack-name aws-sam-cli-managed-default
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1682434257"></script>
-    <script src="/js/perfect-scrollbar.min.js?1682434257"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1682434257"></script>
-    <script src="/js/jquery.sticky.js?1682434257"></script>
-    <script src="/js/featherlight.min.js?1682434257"></script>
-    <script src="/js/highlight.pack.js?1682434257"></script>
+    <script src="/js/clipboard.min.js?1682480736"></script>
+    <script src="/js/perfect-scrollbar.min.js?1682480736"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1682480736"></script>
+    <script src="/js/jquery.sticky.js?1682480736"></script>
+    <script src="/js/featherlight.min.js?1682480736"></script>
+    <script src="/js/highlight.pack.js?1682480736"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1682434257"></script>
-    <script src="/js/learn.js?1682434257"></script>
-    <script src="/js/hugo-learn.js?1682434257"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1682480736"></script>
+    <script src="/js/learn.js?1682480736"></script>
+    <script src="/js/hugo-learn.js?1682480736"></script>
 
-    <link href="/mermaid/mermaid.css?1682434257" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1682434257"></script>
+    <link href="/mermaid/mermaid.css?1682480736" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1682480736"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

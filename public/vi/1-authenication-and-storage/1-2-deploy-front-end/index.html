@@ -12,21 +12,21 @@
     <title>Triển Khai Front-end :: Bắt đầu với Amazon VPC và AWS VPN Site to Site</title>
 
     
-    <link href="/css/nucleus.css?1682434258" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1682434258" rel="stylesheet">
-    <link href="/css/hybrid.css?1682434258" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1682434258" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1682434258" rel="stylesheet">
-    <link href="/css/auto-complete.css?1682434258" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1682434258" rel="stylesheet">
-    <link href="/css/theme.css?1682434258" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1682434258" rel="stylesheet">
+    <link href="/css/nucleus.css?1682480736" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1682480736" rel="stylesheet">
+    <link href="/css/hybrid.css?1682480736" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1682480736" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1682480736" rel="stylesheet">
+    <link href="/css/auto-complete.css?1682480736" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1682480736" rel="stylesheet">
+    <link href="/css/theme.css?1682480736" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1682480736" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1682434258" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1682480736" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1682434258"></script>
+    <script src="/js/jquery-3.3.1.min.js?1682480736"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1682434258"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1682434258"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1682480736"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1682480736"></script>
 <script type="text/javascript">
     
         var baseurl = "\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1682434258"></script>
+<script type="text/javascript" src="/js/search.js?1682480736"></script>
 
     
   </div>
@@ -479,7 +479,7 @@ sam deploy
 </ol>
 <pre tabindex="0"><code>yarn build
 aws s3 cp build s3://BUCKET_NAME --recursive
-</code></pre><p>Thay thế <code>BUCKET_NAME</code> bằng tên bucket bạn vừa tạo để host website</p>
+</code></pre><p>Thay thế <code>BUCKET_NAME</code> bằng tên bucket bạn vừa tạo để host website, ví dụ: <code>aws s3 cp build s3://fcjdmswebstore --recursive</code></p>
 <ol start="5">
 <li>Mở bảng điều khiển của <a href="https://s3.console.aws.amazon.com/s3/buckets?region=ap-southeast-1">Amazon S3</a></li>
 </ol>
@@ -543,7 +543,7 @@ aws s3 cp build s3://BUCKET_NAME --recursive
 <li>Bạn đã đăng nhập thành công với thông tin tài khoản mới.</li>
 </ol>
 <p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-35.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
-<p>Bạn đã hoàn thành việc host một website tĩnh trên S3, xác thực người dùng với Cognito, lưu trữ tài liệu trên S3. Tiếp theo để khác phục lỗi ở bước số 15, chúng tã sẽ thiết lập REST API cho ứng dụng.</p>
+<p>Bạn đã hoàn thành việc host một website tĩnh trên S3, xác thực người dùng với Cognito, lưu trữ tài liệu trên S3. Tiếp theo chúng tã sẽ thiết lập REST API cho ứng dụng.</p>
 
 
 
@@ -707,19 +707,19 @@ aws s3 cp build s3://BUCKET_NAME --recursive
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1682434258"></script>
-    <script src="/js/perfect-scrollbar.min.js?1682434258"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1682434258"></script>
-    <script src="/js/jquery.sticky.js?1682434258"></script>
-    <script src="/js/featherlight.min.js?1682434258"></script>
-    <script src="/js/highlight.pack.js?1682434258"></script>
+    <script src="/js/clipboard.min.js?1682480736"></script>
+    <script src="/js/perfect-scrollbar.min.js?1682480736"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1682480736"></script>
+    <script src="/js/jquery.sticky.js?1682480736"></script>
+    <script src="/js/featherlight.min.js?1682480736"></script>
+    <script src="/js/highlight.pack.js?1682480736"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1682434258"></script>
-    <script src="/js/learn.js?1682434258"></script>
-    <script src="/js/hugo-learn.js?1682434258"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1682480736"></script>
+    <script src="/js/learn.js?1682480736"></script>
+    <script src="/js/hugo-learn.js?1682480736"></script>
 
-    <link href="/mermaid/mermaid.css?1682434258" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1682434258"></script>
+    <link href="/mermaid/mermaid.css?1682480736" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1682480736"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

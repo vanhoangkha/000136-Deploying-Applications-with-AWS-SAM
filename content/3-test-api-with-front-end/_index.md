@@ -31,7 +31,7 @@ aws s3 cp build s3://BUCKET_NAME --recursive
 ```
 Replace `BUCKET_NAME` with the name of the bucket you created to host the website
 
-6. Click **Home** on the left menu and reload web page.
+6. Back to web application and reload web page.
 - Click **Upload**
 
 ![TestAPI](/images/3-test-api-with-front-end/3-test-api-with-front-end-4.png?featherlight=false&width=90pc)
