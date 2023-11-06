@@ -1,10 +1,10 @@
 ---
-title : "Serverless - Deploying Applications with AWS SAM using Serverless Architecture"
+title : "Serverless - Deploying Applications with AWS SAM"
 date :  "`r Sys.Date()`" 
 weight : 1 
 chapter : false
 ---
-# Serverless - Deploying Applications with AWS SAM using Serverless Architecture
+# Serverless - Deploying Applications with AWS SAM
 
 #### Overview
 
