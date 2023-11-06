@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.99.1" />
+    <meta name="description" content="">
+<meta name="author" content="journeyoftheaverageguy@gmail.com">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Deploy Cognito And S3 Bucket :: Serverless - Deploying Applications with AWS SAM using Serverless Architecture</title>
+
+    
+    <link href="/css/nucleus.css?1699262136" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1699262136" rel="stylesheet">
+    <link href="/css/hybrid.css?1699262136" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1699262136" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1699262136" rel="stylesheet">
+    <link href="/css/auto-complete.css?1699262136" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1699262136" rel="stylesheet">
+    <link href="/css/theme.css?1699262136" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1699262136" rel="stylesheet">
+    
+    <link href="/css/theme-workshop.css?1699262136" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1699262136"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/1-authenication-and-storage/1-1-deploy-cognito-and-s3/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/">
+
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="30%"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1699262136"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1699262136"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1699262136"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-authenication-and-storage/" title="Authentication And Storage" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/1-authenication-and-storage/">
+           <b> 1. </b> Authentication And Storage
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-authenication-and-storage/1-1-deploy-cognito-and-s3/" title="Deploy Cognito And S3 Bucket" class="dd-item 
+        parent
+        active
+        
+        ">
+      <a href="/1-authenication-and-storage/1-1-deploy-cognito-and-s3/">
+           <b> 1.1 </b> Deploy Cognito And S3 Bucket
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-authenication-and-storage/1-2-deploy-front-end/" title="Deploy Front-end" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-authenication-and-storage/1-2-deploy-front-end/">
+           <b> 1.2 </b> Deploy Front-end
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-config-api-and-lambda-function/" title="Config APIs And Lambda Function" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-config-api-and-lambda-function/">
+           <b> 2. </b> Config APIs And Lambda Function
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-test-api-with-front-end/" title="Test API With Front-end" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-test-api-with-front-end/">
+           <b> 3. </b> Test API With Front-end
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-cleanup/" title="Cleanup" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-cleanup/">
+           <b> 4. </b> Cleanup
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://aws.amazon.com/blogs"><i class='fab fa-aws'></i> AWS Study Group - Blog</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj"><i class='fab fa-facebook'></i> AWS Study Group - FB Group</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="/1-authenication-and-storage/1-1-deploy-cognito-and-s3/" selected>English</option>
+                    
+                  
+              
+                  
+              
+          
+              
+              
+                  
+              
+                  
+                    
+                    
+                      <option id="vi" value="/vi/1-authenication-and-storage/1-1-deploy-cognito-and-s3/">Tiếng Việt</option>
+                    
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+    
+     <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=8412380&style=0038&nbdigits=9&type=page&initCount=0" title="Migrate" Alt="web counter"   border="0" /></a>  <br>
+     <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0" title="Total CLoud Journey" Alt="web counter"   border="0"   />
+     
+</left>
+<left>
+    <br>
+    <br>
+        <b> Last Updated </b> <br>
+        <i><font color=orange>25-04-2023</font></i>
+    </left>
+    <left>
+        <br>
+        <br>
+            <b> Team </b> <br>
+           
+            <i> <a href="https://www.linkedin.com/in/jotaguy"  style="color:orange">Gia Hưng </a> <br>
+                <a href="https://www.linkedin.com/in/hạnh-phạm-725b7322a/"  style="color:orange">Hạnh Phạm </a> <br>
+               
+        </i>
+        </left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Serverless - Deploying Applications with AWS SAM</a> > <a href='/1-authenication-and-storage/'>Authentication And Storage</a> > Deploy Cognito And S3 Bucket
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Deploy Cognito And S3 Bucket
+            </h1>
+          
+
+        
+
+
+
+	<p>In this section, we will create a Cognito User Pool, Identity Pool, and S3 bucket that stores file uploads with SAM:</p>
+
+<div class="notices note" ><p>You need install <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html">SAM CLI</a> and configure credentials before doing this part.</p>
+</div>
+
+<ol>
+<li>Run the following command to initialize a SAM project:</li>
+</ol>
+<pre tabindex="0"><code>#Step 1 - Download a sample application
+sam init
+</code></pre><ul>
+<li>Select the following information:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>  Which template source would you like to use?
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">1</span> - AWS Quick Start Templates
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">2</span> - Custom Template Location
+</span></span><span style="display:flex;"><span>  Choice: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Choose an AWS Quick Start application template
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">1</span> - Hello World Example
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">2</span> - Multi-step workflow
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">3</span> - Serverless API
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">4</span> - Scheduled task
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">5</span> - Standalone <span style="color:#66d9ef">function</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">6</span> - Data processing
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">7</span> - Infrastructure event management
+</span></span><span style="display:flex;"><span>	  <span style="color:#ae81ff">8</span> - Machine Learning
+</span></span><span style="display:flex;"><span>  Template: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Use the most popular runtime and package type? <span style="color:#f92672">(</span>Python and zip<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span>: y
+</span></span><span style="display:flex;"><span>  Would you like to enable X-Ray tracing on the <span style="color:#66d9ef">function</span><span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in your application?  <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span>: n
+</span></span><span style="display:flex;"><span>  Project name <span style="color:#f92672">[</span>sam-app<span style="color:#f92672">]</span> : fcjdmssam
+</span></span></code></pre></div><p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-1.png?featherlight=false&amp;width=90pc" alt="SAMInit"></p>
+<ol start="2">
+<li>Open SAM project by IDE. Open <strong>template.yaml</strong> file.</li>
+</ol>
+<ul>
+<li>Delete unnecessary part</li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-2.png?featherlight=false&amp;width=90pc" alt="SAMInit"></p>
+<ol start="3">
+<li>Copy the following code into the <strong>Resources</strong> section:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>  <span style="color:#75715e"># Creates a user pool in cognito for your app to auth against</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">FcjDMSUserPool</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::Cognito::UserPool</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">UserPoolName</span>: <span style="color:#e6db74">&#34;cognito-fcj-dms&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MfaConfiguration</span>: <span style="color:#e6db74">&#34;OFF&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AliasAttributes</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">preferred_username</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">email</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AutoVerifiedAttributes</span>: 
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">email</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">EmailConfiguration</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">EmailSendingAccount</span>: <span style="color:#ae81ff">COGNITO_DEFAULT</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Policies</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">PasswordPolicy</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">MinimumLength</span>: <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">RequireLowercase</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">RequireNumbers</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">RequireSymbols</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">RequireUppercase</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">TemporaryPasswordValidityDays</span>: <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">UserAttributeUpdateSettings</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">AttributesRequireVerificationBeforeUpdate</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">email</span>
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Creates a User Pool Client to be used by the identity pool</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">FcjDMSUserPoolClient</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::Cognito::UserPoolClient</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ClientName</span>: <span style="color:#e6db74">&#34;fcj-dms&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">UserPoolId</span>: !<span style="color:#ae81ff">Ref FcjDMSUserPool</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">GenerateSecret</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ExplicitAuthFlows</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">ALLOW_USER_PASSWORD_AUTH</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">ALLOW_CUSTOM_AUTH</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">ALLOW_USER_SRP_AUTH</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">ALLOW_REFRESH_TOKEN_AUTH</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Creates a federeated Identity pool</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">FcjDMSUserPoolIdentityPool</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#e6db74">&#34;AWS::Cognito::IdentityPool&#34;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">IdentityPoolName</span>: <span style="color:#e6db74">&#34;fcj-dms-identity&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AllowUnauthenticatedIdentities</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">CognitoIdentityProviders</span>: 
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">ClientId</span>: !<span style="color:#ae81ff">Ref FcjDMSUserPoolClient</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">ProviderName</span>: !<span style="color:#ae81ff">GetAtt FcjDMSUserPool.ProviderName</span>
+</span></span></code></pre></div><p>This code block used to initialize resources:</p>
+<ul>
+<li>A User Pool: Allow users sign in by username, authenticate account by email and config password policies.</li>
+<li>A User Pool Client: Allow users sign in with a combination password and user name and integrate with User Pool.</li>
+<li>A Identity Pool: Supports unauthenticated credentials and user pool and client ID settings.</li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-3.png?featherlight=false&amp;width=90pc" alt="CreateBucket"></p>
+<ol start="4">
+<li>Run below command to build project:</li>
+</ol>
+<pre tabindex="0"><code>sam build
+</code></pre><p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-4.png?featherlight=false&amp;width=90pc" alt="CreateUserPool"></p>
+<ul>
+<li>Run the below command to check if the SAM template is valid or not:</li>
+</ul>
+<pre tabindex="0"><code>sam validate
+</code></pre><p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-5.png?featherlight=false&amp;width=90pc" alt="CreateUserPool"></p>
+<ul>
+<li>Run the below command to deploy SAM:</li>
+</ul>
+<pre tabindex="0"><code>sam deploy --guided
+</code></pre><ul>
+<li>Enter stack name: <code>fcjdmsapp</code></li>
+<li>Enter region you want deploy, such as: <code>ap-southeast-1</code></li>
+<li>hen, enter other information as the below figure:</li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-6.png?featherlight=false&amp;width=90pc" alt="CreateUserPool"></p>
+<ul>
+<li>Wait a while to create CloudFormation stack changeset</li>
+<li>Enter <code>y</code> when is ask <strong>Deploy this changeset?</strong></li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-7.png?featherlight=false&amp;width=90pc" alt="CreateUserPool"></p>
+<ul>
+<li>The result after CloudFormation is completed:</li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-8.png?featherlight=false&amp;width=90pc" alt="CreateUserPool"></p>
+<ol start="4">
+<li>Open <a href="https://ap-southeast-1.console.aws.amazon.com/cloudformation/home?region=ap-southeast-1#/">CloudFormation console</a>.</li>
+</ol>
+<ul>
+<li>Select <strong>Stack details</strong> on the left menu, then select <strong>fcjdmsapp</strong> stack.</li>
+<li>Select <strong>Resources</strong> tab. You will see the resources we described in the template.</li>
+<li>Click <strong>FcjDmsUserPool</strong> to navigate to this User Pool console.</li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-9.png?featherlight=false&amp;width=90pc" alt="CheckUserPool"></p>
+<ol start="5">
+<li>Next, we will create a S3 bucket to store files that the user uploads</li>
+</ol>
+<ul>
+<li>Open <strong>template</strong> file and add the following code to declare the parameters::</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">Parameters</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">DocumentStoreBucketName</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">String</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Default</span>: <span style="color:#ae81ff">fcjdmsstore</span>
+</span></span></code></pre></div>
+<div class="notices note" ><p>Change the <strong>Default</strong> value to change bucket name</p>
+</div>
+
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-10.png?featherlight=false&amp;width=90pc" alt="CreateBucket"></p>
+<ul>
+<li>Add the following code to file:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>  <span style="color:#f92672">FcjDMSStore</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::S3::Bucket</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">BucketName</span>: !<span style="color:#ae81ff">Ref DocumentStoreBucketName</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">CorsConfiguration</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">CorsRules</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">AllowedHeaders</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#e6db74">&#39;*&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">AllowedMethods</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">GET</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">HEAD</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">PUT</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">POST</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">DELETE</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">AllowedOrigins</span>:
+</span></span><span style="display:flex;"><span>               - <span style="color:#e6db74">&#39;*&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">ExposedHeaders</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">x-amz-server-side-encryption</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">x-amz-request-id</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">x-amz-id-2</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#ae81ff">ETag</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">MaxAge</span>: <span style="color:#ae81ff">1800</span>
+</span></span></code></pre></div><p>With the above code, the S3 bucket is configured CorsRules which allows our web application access to it.</p>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-11.png?featherlight=false&amp;width=90pc" alt="CreateBucket"></p>
+<ol start="6">
+<li>Next, we will create the roles for unauthorized and authorized access to S3. Add the following code to the bottom file:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>  <span style="color:#75715e"># Create a role for unauthorized access to AWS resources. Very limited access. Only allows users in the previously created</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CognitoUnAuthorizedRole</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#e6db74">&#34;AWS::IAM::Role&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AssumeRolePolicyDocument</span>: 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Version</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Statement</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">Effect</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Principal</span>: 
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">Federated</span>: <span style="color:#e6db74">&#34;cognito-identity.amazonaws.com&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Action</span>: 
+</span></span><span style="display:flex;"><span>              - <span style="color:#e6db74">&#34;sts:AssumeRoleWithWebIdentity&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Condition</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">StringEquals</span>: 
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;cognito-identity.amazonaws.com:aud&#34;: </span>!<span style="color:#ae81ff">Ref FcjDMSUserPoolIdentityPool</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;ForAnyValue:StringLike&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;cognito-identity.amazonaws.com:amr&#34;: </span><span style="color:#ae81ff">unauthenticated</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Policies</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">PolicyName</span>: <span style="color:#e6db74">&#34;CognitoUnauthorizedPolicy&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">PolicyDocument</span>: 
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Version</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Statement</span>: 
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">Effect</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Action</span>:
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;mobileanalytics:PutEvents&#34;</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;cognito-sync:*&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Resource</span>: <span style="color:#e6db74">&#34;*&#34;</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">Effect</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Action</span>:
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Resource</span>: !<span style="color:#ae81ff">Join</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>                  - - <span style="color:#e6db74">&#34;arn:aws:s3:::&#34;</span>
+</span></span><span style="display:flex;"><span>                    - !<span style="color:#ae81ff">Ref DocumentStoreBucketName</span>
+</span></span><span style="display:flex;"><span>                    - <span style="color:#ae81ff">/protected/*</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Create a role for authorized access to AWS resources. Control what your user can access. This example only allows Lambda invokation</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Only allows users in the previously created Identity Pool</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CognitoAuthorizedRole</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#e6db74">&#34;AWS::IAM::Role&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AssumeRolePolicyDocument</span>: 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Version</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">Statement</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">Effect</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Principal</span>: 
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">Federated</span>: <span style="color:#e6db74">&#34;cognito-identity.amazonaws.com&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Action</span>: 
+</span></span><span style="display:flex;"><span>              - <span style="color:#e6db74">&#34;sts:AssumeRoleWithWebIdentity&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Condition</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">StringEquals</span>: 
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;cognito-identity.amazonaws.com:aud&#34;: </span>!<span style="color:#ae81ff">Ref FcjDMSUserPoolIdentityPool</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;ForAnyValue:StringLike&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;cognito-identity.amazonaws.com:amr&#34;: </span><span style="color:#ae81ff">authenticated</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Policies</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">PolicyName</span>: <span style="color:#e6db74">&#34;CognitoAuthorizedPolicy&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">PolicyDocument</span>: 
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Version</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">Statement</span>: 
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">Effect</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Action</span>:
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;mobileanalytics:PutEvents&#34;</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;cognito-sync:*&#34;</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;cognito-identity:*&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Resource</span>: <span style="color:#e6db74">&#34;*&#34;</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">Effect</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Action</span>:
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;lambda:InvokeFunction&#34;</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;s3:PutObject&#34;</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;s3:DeleteObject&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Resource</span>: <span style="color:#e6db74">&#39;*&#39;</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">Effect</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Action</span>:
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">Resource</span>: !<span style="color:#ae81ff">Join</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>                  - - <span style="color:#e6db74">&#34;arn:aws:s3:::&#34;</span>
+</span></span><span style="display:flex;"><span>                    - !<span style="color:#ae81ff">Ref DocumentStoreBucketName</span>
+</span></span><span style="display:flex;"><span>                    - <span style="color:#ae81ff">/protected/*</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Assigns the roles to the Identity Pool</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">IdentityPoolRoleMapping</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#e6db74">&#34;AWS::Cognito::IdentityPoolRoleAttachment&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">IdentityPoolId</span>: !<span style="color:#ae81ff">Ref FcjDMSUserPoolIdentityPool</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Roles</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">authenticated</span>: !<span style="color:#ae81ff">GetAtt CognitoAuthorizedRole.Arn</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">unauthenticated</span>: !<span style="color:#ae81ff">GetAtt CognitoUnAuthorizedRole.Arn</span>
+</span></span></code></pre></div><p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-12.png?featherlight=false&amp;width=90pc" alt="CreateBucket"></p>
+<ol start="7">
+<li>Run the following commands:</li>
+</ol>
+<pre tabindex="0"><code>sam build
+sam deploy
+</code></pre><p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-13.png?featherlight=false&amp;width=90pc" alt="CreateBucket"></p>
+<ol start="8">
+<li>Next, we will use amplify to import authentication and storage into our web application. Run the following command at the root of the front-end project.</li>
+</ol>
+<pre tabindex="0"><code>amplify init
+</code></pre><ul>
+<li>
+<p>Entering follow the below information:</p>
+<p>? Enter a name for the project <code>fcjdms</code><br>
+The following configuration will be applied:</p>
+<p>Project information<br>
+| Name: fcjdms<br>
+| Environment: dev<br>
+| Default editor: Visual Studio Code<br>
+| App type: javascript<br>
+| Javascript framework: react<br>
+| Source Directory Path: src<br>
+| Distribution Directory Path: build<br>
+| Build Command: npm run-script build<br>
+| Start Command: npm run-script start</p>
+<p>? Initialize the project with the above configuration? <code>Yes</code><br>
+Using default provider  awscloudformation<br>
+? Select the authentication method you want to use: <em>AWS profile</em></p>
+<p>For more information on AWS Profiles, see:<br>
+<a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html</a></p>
+<p>? Please choose the profile you want to use <em>default</em><br>
+? Help improve Amplify CLI by sharing non sensitive configurations on failures (y/N) › <code>No</code></p>
+</li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-14.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
+
+<div class="notices note" ><p>If you have not downloaded the front-end project, run the following commands:<br>
+<code>git clone https://github.com/AWS-First-Cloud-Journey/FCJ-Serverless-DMS</code><br>
+<code>cd FCJ-Serverless-DMS</code><br>
+<code>npm install</code></p>
+</div>
+
+<ol start="9">
+<li>Run the following command to import authentication into project:</li>
+</ol>
+<pre tabindex="0"><code>amplify import auth
+</code></pre><ul>
+<li>Select <strong>Cognito User Pool and Identity Pool</strong> for <em>What type of auth resource do you want to import?</em></li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-15.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
+<ol start="10">
+<li>Run the following command to import storage into project:</li>
+</ol>
+<pre tabindex="0"><code>amplify import storage
+</code></pre><ul>
+<li>Select <strong>S3 bucket - Content (Images, audio, video, etc.)</strong> for <em>Select from one of the below mentioned services</em></li>
+<li>Select the bucket you created from the above steps</li>
+</ul>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-16.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
+<ol start="10">
+<li>Run the command: <code>amplify push</code> to update cloud resources:</li>
+</ol>
+<p><img src="/images/1-authenication-and-storage/1-authenication-and-storage-17.png?featherlight=false&amp;width=90pc" alt="AddAmplify"></p>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/1-authenication-and-storage/" title="Authentication And Storage"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/1-authenication-and-storage/1-2-deploy-front-end/" title="Deploy Front-end" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1699262136"></script>
+    <script src="/js/perfect-scrollbar.min.js?1699262136"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1699262136"></script>
+    <script src="/js/jquery.sticky.js?1699262136"></script>
+    <script src="/js/featherlight.min.js?1699262136"></script>
+    <script src="/js/highlight.pack.js?1699262136"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1699262136"></script>
+    <script src="/js/learn.js?1699262136"></script>
+    <script src="/js/hugo-learn.js?1699262136"></script>
+
+    <link href="/mermaid/mermaid.css?1699262136" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1699262136"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-158079754-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
