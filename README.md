@@ -1,4 +1,4 @@
-# 📦 Deploy with AWS SAM
+# Deploy with AWS SAM
 
 Serverless application deployment using AWS SAM.
 
@@ -8,7 +8,7 @@ This is a hands-on workshop from the **AWS First Cloud Journey** series.
 
 ## Workshop
 
-📖 **[Start the workshop](https://vanhoangkha.github.io/000136-Deploying-Applications-with-AWS-SAM/)**
+**[Start the workshop](https://vanhoangkha.github.io/000136-Deploying-Applications-with-AWS-SAM/)**
 
 ## Prerequisites
 
